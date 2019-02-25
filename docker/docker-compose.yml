@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  app:
+    build: .
+  image: jumia:latest
+  ports:
+    - "8080:80"
+
+volumes:
+  - ./../app:/var/www/html/jumia
+  - ./000-default.conf:/etc/apache2/sites-available/000-default.conf
