@@ -5,14 +5,14 @@ composer install
 ```
 
 
-# Utilizando Docker
+# Utilizando Docker (Caso deseje)
 ```
 cd docker
 docker build -t jumia .
 docker run -it --rm --name jumia jumia
 ```
 
-# Rodando teste
+# Rodando testes
 ```
 ./vendor/bin/phpunit --bootstrap ./bootstrap.php tests
 ```
