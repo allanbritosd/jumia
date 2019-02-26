@@ -9,7 +9,7 @@ $(document).ready(function() {
 
 function loadCountries() {
 	$.getJSON('countries', function(countries){
-		var html = "<option>Select country</option>";
+		var html = "<option value=''>Select country</option>";
 		for (x in countries) {
 			html += "<option value='" + countries[x].code + "'>" + countries[x].name + "</option>";
 		}
