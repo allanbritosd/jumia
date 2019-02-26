@@ -5,4 +5,5 @@ interface IPhoneValidationRule
 {
     public function validate(string $phone): bool;
     public function getCountryCode(): string;
+    public function getCountryName(): string;
 }
