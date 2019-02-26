@@ -1,48 +1,51 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Jumia</title>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-</head>
-<body>
-	<div class="row">
-		<div class="col-md-3">
-			<label>Country</label>
-			<select class="form-control" id="country"></select>
+	<head>
+		<title>Jumia</title>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap.min.css">
+
+	</head>
+	<body>
+		<div class="row">
+			<div class="col-md-3">
+				<label>Country</label>
+				<select class="form-control" id="country"></select>
+			</div>
+
+			<div class="col-md-3">
+				<label>Valid phone number?</label>
+				<select class="form-control" id="valid_form_number">
+					<option value="-1">All numbers</option>
+					<option value="1">Only valid numbers</option>
+					<option value="0">Only invalid numbers</option>
+				</select>
+			</div>
+		</div>
+		<br/>
+		<div class="row">
+			<div class="col-md-12">
+				<table class="table" id="customer_table">
+					<thead>
+						<th>Country</th>
+						<th>State</th>
+						<th>Country code</th>
+						<th>Phone number</th>
+					</thead>
+					<tfoot>
+						<th>Country</th>
+						<th>State</th>
+						<th>Country code</th>
+						<th>Phone number</th>
+					</tfoot>
+				</table>
+			</div>
 		</div>
 
-		<div class="col-md-3">
-			<label>Valid phone number?</label>
-			<select class="form-control" id="valid_form_number">
-				<option value="-1">All numbers</option>
-				<option value="1">Only valid numbers</option>
-				<option value="0">Only invalid numbers</option>
-			</select>
-		</div>
-	</div>
-	<br/>
-	<div class="row">
-		<div class="col-md-12">
-			<table class="table">
-				<thead>
-					<th>Country</th>
-					<th>State</th>
-					<th>Country code</th>
-					<th>Phone number</th>
-				</thead>
-				<tfoot>
-					<th>Country</th>
-					<th>State</th>
-					<th>Country code</th>
-					<th>Phone number</th>
-				</tfoot>
-			</table>
-		</div>
-	</div>
-
-	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-	<script src="public/assets/app.js"></script>
-</body>
+		<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+		<script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+		<script src="public/assets/app.js"></script>
+	</body>
 </html>

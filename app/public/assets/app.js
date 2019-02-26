@@ -1,6 +1,6 @@
 $(document).ready(function() {
-
 	loadCountries();
+	loadCustomers();
 });
 
 function loadCountries() {
@@ -12,4 +12,13 @@ function loadCountries() {
 
 		$('#country').html(html);
 	});
+}
+
+function loadCustomers() {
+	$('#customer_table').DataTable({
+        "processing": true,
+        "serverSide": true,
+        "ordering"  : false,
+        "ajax": "customers"
+    });
 }

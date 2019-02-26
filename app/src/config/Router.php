@@ -7,6 +7,7 @@ class Router
         '' 		    => ['GET' => 'App\\Controllers\\HomeController::index'],
         '/'		    => ['GET' => 'App\\Controllers\\HomeController::index'],
         'countries' => ['GET' => 'App\\Controllers\\CountryController::getAll'],
+        'customers' => ['GET' => 'App\\Controllers\\CustomerController::getAll'],
     ];
 
     public function resolve(string $url)

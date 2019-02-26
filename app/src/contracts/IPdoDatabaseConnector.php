@@ -3,6 +3,6 @@ namespace App\Contracts;
 
 interface IPdoDatabaseConnector
 {
-    public static function executeQuery(string $sql): \PDOStatement;
-    public static function getLastInsertId(string $table): int;
+    public function executeQuery(string $sql): \PDOStatement;
+    public function getLastInsertId(string $table): int;
 }

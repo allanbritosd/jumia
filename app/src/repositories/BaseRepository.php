@@ -1,20 +1,13 @@
 <?php
 namespace App\Repositories;
 
-use App\Contracts\IPdoDatabaseConnector;
+use App\Config\ConnectionManager;
 use App\Contracts\IRepository;
 use App\Contracts\IModel;
 
 
 abstract class BaseRepository implements IRepository
 {
-    private $databaseConnector;
-
-    public function __construct(IPdoDatabaseConnector $databaseConnector)
-    {
-        $this->databaseConnector = $databaseConnector;
-    }
-
     abstract public function getTableName(): string;
     abstract public function createModel(): IModel;
     abstract public function createModelList(): \SplObjectStorage;
@@ -23,7 +16,7 @@ abstract class BaseRepository implements IRepository
     {
         $modelList = $this->createModelList();
         $sql       = 'SELECT * FROM ' . $this->getTableName();
-        $records   = $this->databaseConnector->executeQuery($sql)->fetchAll();
+        $records   = ConnectionManager::getInstance()->executeQuery($sql)->fetchAll();
 
         foreach ($records as $record) {
             $model = $this->createModel();
@@ -37,7 +30,7 @@ abstract class BaseRepository implements IRepository
     public function findById(int $id): IModel
     {
         $sql    = 'SELECT * FROM ' . $this->getTableName() . ' where id = ?';
-        $record = $this->databaseConnector->executeQuery($sql, [$id])->fetch();
+        $record = ConnectionManager::getInstance()->executeQuery($sql, [$id])->fetch();
         $model  = $this->createModel();
         echo "<br/>";
         var_dump($id, $record);
@@ -51,7 +44,7 @@ abstract class BaseRepository implements IRepository
     {
         $sql = 'DELETE FROM ' . $this->getTableName() . ' WHERE id = ?';
 
-        $this->databaseConnector->executeQuery($sql, [$model->id]);
+        ConnectionManager::getInstance()->executeQuery($sql, [$model->id]);
     }
 
     public function save(IModel $model): IModel
@@ -75,14 +68,14 @@ abstract class BaseRepository implements IRepository
         $sql .= ' WHERE id = ?';
         $columns[] = $model->id;
 
-        $this->databaseConnector->executeQuery($sql, $columns);
+        ConnectionManager::getInstance()->executeQuery($sql, $columns);
 
         return $this->findById($model->id);
     }
 
     private function create(IModel $model)
     {
-        $id = $this->databaseConnector->getLastInsertId($this->getTableName()) + 1;
+        $id = ConnectionManager::getInstance()->getLastInsertId($this->getTableName()) + 1;
         $model->id = $id;
 
         $sql     = 'INSERT INTO ' . $this->getTableName();
@@ -92,7 +85,7 @@ abstract class BaseRepository implements IRepository
 
         $sql .= ' VALUES(' . substr(str_repeat('?,', count($columns)), 0, -1) . ')';
 
-        $statement = $this->databaseConnector->executeQuery($sql, $columns);
+        $statement = ConnectionManager::getInstance()->executeQuery($sql, $columns);
 
         return $this->findById($id);
     }

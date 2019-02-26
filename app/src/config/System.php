@@ -7,9 +7,13 @@ use App\Business\PhoneValidations\EthiopiaPhoneValidationRule;
 use App\Business\PhoneValidations\MoroccoPhoneValidationRule;
 use App\Business\PhoneValidations\MozambiquePhoneValidationRule;
 use App\Business\PhoneValidations\UgandaPhoneValidationRule;
+use App\Config\Database\SqliteDatabaseConnector;
+use App\Config\ConnectionManager;
 
 class System {
-	public function boot()	{
+	public function boot() {
+		$databaseConnector = new SqliteDatabaseConnector(getenv('SQLITE_DSN'));
+		ConnectionManager::init($databaseConnector);
 		PhoneValidator::registerRule(new CameroonPhoneValidationRule);
 		PhoneValidator::registerRule(new EthiopiaPhoneValidationRule);
 		PhoneValidator::registerRule(new MoroccoPhoneValidationRule);
