@@ -9,12 +9,14 @@ abstract class BaseRepository implements IRepository
 {
     abstract public function getTableName(): string;
     abstract public function createModel(): IModel;
+    abstract public function getWhereStatement(array $filters = []): string;
     abstract public function createModelList(): \SplObjectStorage;
 
-    public function findAll(int $length = 0, int $offset = 0): \SplObjectStorage
+    public function findAll(array $filters = [], int $length = 0, int $offset = 0): \SplObjectStorage
     {
         $modelList = $this->createModelList();
         $sql       = 'SELECT * FROM ' . $this->getTableName();
+        $sql      .= ' WHERE ' . $this->getWhereStatement($filters);
 
         if ($length > 0)
         {
@@ -33,9 +35,10 @@ abstract class BaseRepository implements IRepository
         return $modelList;
     }
 
-    public function count(): int {
+    public function count(array $filters = []): int {
         $modelList = $this->createModelList();
         $sql       = 'SELECT count(*) FROM ' . $this->getTableName();
+        $sql      .= ' WHERE ' . $this->getWhereStatement($filters);
 
         return ConnectionManager::getInstance()->executeQuery($sql)->fetchColumn();
     }

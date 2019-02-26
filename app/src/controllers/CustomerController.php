@@ -10,8 +10,8 @@ class CustomerController
     public function getAll($request)
     {
         $customerRepository = new CustomerRepository();
-        $customerList       = $customerRepository->findAll($request['length'], $request['start']);
-        $customerCount      = $customerRepository->count();
+        $customerList       = $customerRepository->findAll($request['filters'] ?? [], $request['length'], $request['start']);
+        $customerCount      = $customerRepository->count($request['filters'] ?? []);
         $customerData       = [];
 
         $countries = PhoneValidator::getCountries();
@@ -52,6 +52,5 @@ class CustomerController
 			'recordsFiltered' => $customerCount,
             'data' => $customerData,
         ]);
-        // echo json_encode(iterator_to_array($customers));
     }
 }
