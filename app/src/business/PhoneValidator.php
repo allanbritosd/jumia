@@ -2,6 +2,7 @@
 namespace App\Business;
 
 use App\Contracts\IPhoneValidationRule;
+use App\Exceptions\PhoneValidation\CountryNotFoundException;
 
 class PhoneValidator
 {
@@ -16,7 +17,7 @@ class PhoneValidator
     {
         $countryCode = self::getCountryCode($phone);
         if (empty(self::$validations[$countryCode])) {
-            throw new PhoneValidationException("Country code not found");
+            throw new CountryNotFoundException("Country code not found");
         }
 
         return self::$validations[$countryCode]->validate($phone);

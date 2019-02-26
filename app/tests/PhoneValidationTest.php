@@ -53,4 +53,12 @@ class PhoneValidationTest extends TestCase
     {
         $this->assertFalse(PhoneValidator::validate('(256) 14661233'));
     }
+
+    /**
+     * @expectedException App\Exceptions\PhoneValidation\CountryNotFoundException
+     */
+    public function testInvalidCountry()
+    {
+        PhoneValidator::validate('(55) 999561339');
+    }
 }
