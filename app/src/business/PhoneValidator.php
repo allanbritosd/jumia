@@ -28,12 +28,17 @@ class PhoneValidator
         return preg_replace('/^\((\d+)\).+/', '$1', $phone);
     }
 
+    public static function getPhone(string $phone): string
+    {
+        return preg_replace('/^\(\d+\) ?(.+)/', '$1', $phone);
+    }
+
     public static function getCountries(): array
     {
         $countries = [];
 
         foreach(self::$validations as $validation) {
-            $countries[] = (object) [
+            $countries[$validation->getCountryCode()] = (object) [
                 'code' => $validation->getCountryCode(),
                 'name' => $validation->getCountryName(),
             ];

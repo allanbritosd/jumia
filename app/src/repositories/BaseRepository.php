@@ -5,26 +5,39 @@ use App\Config\ConnectionManager;
 use App\Contracts\IRepository;
 use App\Contracts\IModel;
 
-
 abstract class BaseRepository implements IRepository
 {
     abstract public function getTableName(): string;
     abstract public function createModel(): IModel;
     abstract public function createModelList(): \SplObjectStorage;
 
-    public function findAll(): \SplObjectStorage
+    public function findAll(int $length = 0, int $offset = 0): \SplObjectStorage
     {
         $modelList = $this->createModelList();
         $sql       = 'SELECT * FROM ' . $this->getTableName();
+
+        if ($length > 0)
+        {
+            $sql .= ' LIMIT ' . $length . ' OFFSET '. $offset;
+        }
+
         $records   = ConnectionManager::getInstance()->executeQuery($sql)->fetchAll();
 
-        foreach ($records as $record) {
+        foreach ($records as $record)
+        {
             $model = $this->createModel();
             $model->fill($record);
             $modelList->attach($model);
         }
 
         return $modelList;
+    }
+
+    public function count(): int {
+        $modelList = $this->createModelList();
+        $sql       = 'SELECT count(*) FROM ' . $this->getTableName();
+
+        return ConnectionManager::getInstance()->executeQuery($sql)->fetchColumn();
     }
 
     public function findById(int $id): IModel
@@ -49,9 +62,11 @@ abstract class BaseRepository implements IRepository
 
     public function save(IModel $model): IModel
     {
-        if (!empty($model->id)) {
+        if (!empty($model->id))
+        {
             $model = $this->update($model);
-        } else {
+        } else
+        {
             $model = $this->create($model);
         }
 

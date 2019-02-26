@@ -10,7 +10,7 @@ class Router
         'customers' => ['GET' => 'App\\Controllers\\CustomerController::getAll'],
     ];
 
-    public function resolve(string $url)
+    public function resolve(string $url, array $request)
     {
         if (empty($this->routes[$url][$_SERVER['REQUEST_METHOD']]))
         {
@@ -19,6 +19,6 @@ class Router
             return;
         }
 
-        call_user_func($this->routes[$url][$_SERVER['REQUEST_METHOD']]);
+        call_user_func($this->routes[$url][$_SERVER['REQUEST_METHOD']], $request);
     }
 }

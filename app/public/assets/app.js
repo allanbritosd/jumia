@@ -16,9 +16,10 @@ function loadCountries() {
 
 function loadCustomers() {
 	$('#customer_table').DataTable({
-        "processing": true,
-        "serverSide": true,
-        "ordering"  : false,
-        "ajax": "customers"
+        processing: true,
+        serverSide: true,
+        ordering  : false,
+        dom: 'Brtip',
+        ajax: "customers"
     });
 }

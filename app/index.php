@@ -5,4 +5,4 @@ require 'bootstrap.php';
 use App\Config\Router;
 
 $router = new Router;
-$router->resolve($_GET['url']);
+$router->resolve($_GET['url'], $_REQUEST);
