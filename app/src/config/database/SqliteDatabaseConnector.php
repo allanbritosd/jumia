@@ -14,6 +14,7 @@ class SqliteDatabaseConnector implements IPdoDatabaseConnector
         try
         {
             $this->pdo = new \PDO('sqlite:' . getenv('SQLITE_DSN'));
+            $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
         } catch (\PDOException $exception)
         {
             throw $exception;
@@ -30,13 +31,19 @@ class SqliteDatabaseConnector implements IPdoDatabaseConnector
         return self::$instance;
     }
 
-    public static function getConnection(): \PDO
+    public static function executeQuery(string $sql, array $parameters = []): \PDOStatement
     {
-        return self::getInstance()->pdo;
+        $statement = self::getInstance()->pdo->prepare($sql);
+        $data = [];
+        foreach ($parameters as $parameter) {
+            $data[] = $parameter;
+        }
+        $result = $statement->execute($data);
+
+        return $statement;
     }
 
-    public static function executeQuery(string $sql): \PDOStatement
-    {
-        return self::getConnection()->query($sql);
+    public static function getLastInsertId(string $table): int {
+        return self::getInstance()->pdo->query('SELECT max(id) from '.$table)->fetchColumn();
     }
 }
